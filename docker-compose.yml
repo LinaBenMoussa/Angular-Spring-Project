@@ -1,0 +1,44 @@
+
+
+
+version: '3.7'
+
+services:
+  # Service pour l'application Angular
+  angular:
+    build:
+      context: ./CompteBnakAngular
+    ports:
+      - "80:80"
+    networks:
+      - bank-network
+
+  # Service pour l'application Spring Boot
+  springboot:
+    build:
+      context: ./BankApp
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/bankdb
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    networks:
+      - bank-network
+
+  # Service pour MySQL
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bankdb
+    ports:
+      - "3307:3306"
+    networks:
+      - bank-network
+
+networks:
+  bank-network:
+    driver: bridge
