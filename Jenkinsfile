@@ -14,7 +14,7 @@ pipeline {
         }
         stage('Docker Build') {
             steps {
-                sh "docker-compose build"
+                sh "docker-compose -f docker-compose.yml build"
             }
         }
         stage('DockerHub Push') {
@@ -22,14 +22,14 @@ pipeline {
                 withCredentials([string(credentialsId: '317e9fff-659e-4895-bc13-81651f33b049', variable: 'DockerHubPassword')]) {
                     sh "docker login -u linabenmoussa150 -p ${DockerHubPassword}"
                 }
-                sh "docker-compose push"
+                sh "docker-compose -f docker-compose.yml push"
             }
         }
         stage('Deploy') {
             steps {
                 sshagent(credentials: ['vagrant_ssh']) {
                     sh "ssh-keyscan -H 192.168.1.183 >> ~/.ssh/known_hosts"
-                    sh "ssh -o StrictHostKeyChecking=no vagrant@192.168.1.183 'sudo docker-compose up -d'"
+                    sh "ssh -o StrictHostKeyChecking=no vagrant@192.168.1.183 'sudo docker-compose -f docker-compose.yml up -d'"
                 }
             }
         }
