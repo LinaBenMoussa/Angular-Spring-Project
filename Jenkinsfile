@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Clone Stage') {
             steps {
-                git "https://github.com/LinaBenMoussa/Angular-Spring-Project.git"
+                git url: 'https://github.com/LinaBenMoussa/Angular-Spring-Project.git', branch: 'main'
 
             }
         }
