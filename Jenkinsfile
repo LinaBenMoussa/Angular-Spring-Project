@@ -9,7 +9,8 @@ pipeline {
     stages {
         stage('Clone Stage') {
             steps {
-                git "https://github.com/LinaBenMoussa/angular-jenkins.git"
+                git "https://github.com/LinaBenMoussa/Angular-Spring-Project.git"
+
             }
         }
         stage('Docker Build') {
